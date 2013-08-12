@@ -1,0 +1,7 @@
+.module, .module.stopped {
+	display: none;
+}
+
+.module.loaded {
+	display: block;
+}

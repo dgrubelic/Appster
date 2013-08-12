@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>App</title>
+
+	<script type="text/javascript" src="./../src/sandbox.js"></script>
+	<script type="text/javascript" src="./../src/application.js"></script>
+</head>
+<body>
+	<div id="page">
+		<header class="page"></header>
+
+		<div id="content">
+			<section id="ideas"></section>
+		</div>
+
+		<footer class="page"></footer>
+	</div>
+
+	<script>
+	Application.init({
+		debug: true
+	})
+	Application.load({
+		'ideas': '/module/session/section.ideas.js'
+	});
+	</script>
+</body>
+</html>
