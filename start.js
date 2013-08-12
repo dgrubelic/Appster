@@ -21,23 +21,10 @@ application.configure(function () {
 
 	application.use(express.compress());
 	application.use(express.bodyParser());
-
-	// // application.use(express.logger());
-	// application.use(express.compress());
-	// application.use(express.bodyParser());
-	// application.use(express.cookieParser());
-	// application.use(express.cookieSession({
-	// 	secret: "j4389fhuiaf4"
-	// }));
-	// application.engine('mustache', mu2express.engine);
-	// application.set('view engine', 'mustache');
-	
-	// application.use(express.methodOverride());
-	// application.use("/static", express.static(__dirname + '/public/assets'));
-	// application.set('app_root', __dirname + '/application');
-	// application.set("views", application.get('app_root') + '/view');
-	// application.set("controllers", application.get('app_root') + '/controllers');
-	// application.set("models", application.get('app_root') + '/models/');
+	application.use(express.cookieParser());
+	application.use(express.cookieSession({
+		secret: "SET-YOUR-SECRET-SESSION-KEY-HERE"
+	}));
 });
 
 require(__dirname + '/application/controllers/index.controller.js');

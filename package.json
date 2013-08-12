@@ -1,6 +1,6 @@
 {
   "name": "Appster",
-  "description": "Modular application project framework running express.js and Mustache view engine",
+  "description": "Modular application project framework running NodeJS, express.js and Mustache view engine",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
