@@ -321,6 +321,12 @@ var Application = (function (window, document, undefined) {
       return core;
     },
 
+    log: function () {
+      console.log.call(console, arguments);
+
+      return core;
+    },
+
     /*
     Well, if in debug mode, write run messages to console.
     */
@@ -328,6 +334,8 @@ var Application = (function (window, document, undefined) {
       if (configuration.debug) {
         console.debug.apply(console, arguments);
       }
+
+      return core;
     }
   };
 
