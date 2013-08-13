@@ -56,7 +56,9 @@ Application.startAll();
 
 // run() method waits until all modules have been loaded and then start all of them
 Application.run(function () {
-  // Post-run implementation
+  // Before app start callback
+}, function () {
+  // After app start callback
 });
 ```
 
