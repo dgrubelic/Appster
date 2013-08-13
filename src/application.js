@@ -33,9 +33,14 @@ var Application = (function (window, document, undefined) {
     // Sandbox object that will be passed to modules on runtime
     sandbox     = null;
 
-  // Public application interface
+  /*
+  Public application interface
+  */
   return core = {
-    // Initialize application
+
+    /*
+    Initialize application
+    */
     init: function (config) {
       if (config.sandbox) {
         sandbox = config.sandbox;
@@ -52,6 +57,20 @@ var Application = (function (window, document, undefined) {
       return core;
     },
 
+    /*
+    Load application required scripts and modules.
+
+    Currently supported format for loading modules is:
+
+    {
+      'module_name': 'module_url',
+      'module_dependency': {
+        'url': 'module_url',
+        'async': true,
+        'callback': function () {}
+      }
+    }
+    */
     load: function (loadModules) {
       if (!loadModules.isType('object')) {
         return false;
@@ -100,6 +119,9 @@ var Application = (function (window, document, undefined) {
       }
     },
 
+    /*
+    Check if module script has been loaded
+    */
     isLoaded: function (url) {
       for (var moduleId in scripts) {
         var loadedUrl = scripts[moduleId];
@@ -110,7 +132,9 @@ var Application = (function (window, document, undefined) {
       return false;
     },
 
-    // Register new application module
+    /*
+    Register new application module
+    */
     module: function (moduleId, dependency, callback) {
       if (!callback) {
         callback = dependency;
@@ -128,19 +152,23 @@ var Application = (function (window, document, undefined) {
       return core;
     },
 
-    // getModule: function (moduleId) {
-    //  return (core.hasModule(moduleId)) ? modules[moduleId].instance : null;
-    // },
-
-    // Check if application has registred module
+    /*
+    Check if application has registred module
+    */
     hasModule: function (moduleId) {
       return ((undefined !== modules[moduleId]) && modules.hasOwnProperty(moduleId)) ? true : false;
     },
 
+    /*
+    Get list of registred modules (just names).
+    */
     registredModules: function () {
-      
+      // TODO: Iplement this method.
     },
 
+    /*
+    Wait for all scripts to load (window.onload) and start all registred modules.
+    */
     run: function (beforeStart, afterStart) {
       if (undefined === afterStart) {
         afterStart = beforeStart;
@@ -160,6 +188,9 @@ var Application = (function (window, document, undefined) {
       }
     },
 
+    /*
+    Check if module execution has been started.
+    */
     isStarted: function(moduleId) {
       if (core.hasModule(moduleId) && modules[moduleId].instance) {
         return true;
@@ -168,7 +199,9 @@ var Application = (function (window, document, undefined) {
       return false;
     },
 
-    // Start module logic
+    /*
+    Start module logic
+    */
     start: function (moduleId) {
       core.debug('Starting module "' + moduleId + '"');
 
@@ -186,6 +219,7 @@ var Application = (function (window, document, undefined) {
         try {
           var moduleDependency = module.dependency;
 
+          // Check module dependency and start them before running requested module.
           if (0 < moduleDependency.length) {
             for (var i = 0; i < moduleDependency.length; i++) {
               var dependencyId = moduleDependency[i];
@@ -207,8 +241,10 @@ var Application = (function (window, document, undefined) {
             }
           }
 
+          // Call module creator method
           var instance = module.callback.call(module, sandbox);
 
+          // Module can return insatnce odject or can be run in background.
           if (undefined !== instance) {
             module.instance = instance;
 
@@ -236,7 +272,10 @@ var Application = (function (window, document, undefined) {
       return core;
     },
 
-    // Stop module logic
+    /*
+    Stop module logic. If module is not run in background, 
+    call destroy method and delete instance object.
+    */
     stop: function (moduleId) {
       if (!core.hasModule(moduleId)) return false;
 
@@ -247,7 +286,7 @@ var Application = (function (window, document, undefined) {
 
         if (module.instance.destroy) {
           module.instance.destroy.call(module.instance);
-          module.instance = null;
+          delete module.instance;
 
           core.debug('Module "' + moduleId + '" stopped.');
         }
@@ -256,7 +295,9 @@ var Application = (function (window, document, undefined) {
       return core;
     },
 
-    // Start all application registred modules
+    /*
+    Start all application registred modules
+    */
     startAll: function (config) {
       for (var moduleId in modules) {
         if (modules.hasOwnProperty(moduleId)) {
@@ -267,7 +308,9 @@ var Application = (function (window, document, undefined) {
       return core;
     },
 
-    // Stop all application registred modules
+    /*
+    Stop all application registred modules
+    */
     stopAll: function () {
       for (var moduleId in modules) {
         if (modules.hasOwnProperty(moduleId)) {
@@ -278,10 +321,9 @@ var Application = (function (window, document, undefined) {
       return core;
     },
 
-    log: function () {
-      console.log.apply(console, arguments);
-    },
-
+    /*
+    Well, if in debug mode, write run messages to console.
+    */
     debug: function () {
       if (configuration.debug) {
         console.debug.apply(console, arguments);
