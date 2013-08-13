@@ -1,9 +1,9 @@
 (function () {
 
-	if (!Sandbox) return false;
+  if (!Sandbox) return false;
 
-	Sandbox.query = function () {
-		return document.querySelectorAll.apply(document, arguments);
-	}
+  Sandbox.query = function () {
+    return document.querySelectorAll.apply(document, arguments);
+  }
 
 }.call(this));
