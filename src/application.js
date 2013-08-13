@@ -168,6 +168,10 @@ var Application = (function (window, document, undefined) {
 
     /*
     Wait for all scripts to load (window.onload) and start all registred modules.
+
+    Run method supports: 
+      - before application start callback
+      - after application start callback
     */
     run: function (beforeStart, afterStart) {
       if (undefined === afterStart) {
