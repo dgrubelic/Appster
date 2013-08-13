@@ -20,10 +20,18 @@ var Application = (function (window, document, undefined) {
     configuration   = {
       debug: false
     },
+
+    // List of application registred modules
     modules     = {},
+
+    // Just a placeholder for my future implementation
     helpers     = {},
+
+    // Loaded scripts
     scripts     = {},
-    sandbox     = Sandbox;
+
+    // Sandbox object that will be passed to modules on runtime
+    sandbox     = null;
 
   // Public application interface
   return core = {
@@ -31,6 +39,10 @@ var Application = (function (window, document, undefined) {
     init: function (config) {
       if (config.sandbox) {
         sandbox = config.sandbox;
+      }
+
+      if (!sandbox && (undefined !== Sandbox)) {
+        sandbox = Sandbox;
       }
 
       if (config.debug) {
@@ -129,12 +141,21 @@ var Application = (function (window, document, undefined) {
       
     },
 
-    run: function (callback) {
+    run: function (beforeStart, afterStart) {
+      if (undefined === afterStart) {
+        afterStart = beforeStart;
+        beforeStart = null;
+      }
+
       window.onload = function () {
         core.startAll();
 
-        if (callback && callback.call) {
-          callback.call(core);
+        if (beforeStart && beforeStart.call) {
+          beforeStart.call(core);
+        }
+
+        if (afterStart && afterStart.call) {
+          afterStart.call(core);
         }
       }
     },
@@ -186,7 +207,7 @@ var Application = (function (window, document, undefined) {
             }
           }
 
-          var instance = module.callback.call(global, sandbox);
+          var instance = module.callback.call(module, sandbox);
 
           if (undefined !== instance) {
             module.instance = instance;
