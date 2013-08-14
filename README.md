@@ -40,12 +40,12 @@ Application.module('app_module', ['dependency_module'], function (sandbox) {
 
 ```js
 // Start module
-Application.start('app_module_name');
+Application.start('app_module'); // Dependency module is started automatically
 ```
 
 ```js
 // Stop module
-Application.stop('app_module_name');
+Application.stop('app_module');
 ```
 
 ```js
@@ -56,7 +56,9 @@ Application.startAll();
 
 // run() method waits until all modules have been loaded and then start all of them
 Application.run(function () {
-  // Post-run implementation
+  // Before app start callback
+}, function () {
+  // After app start callback
 });
 ```
 
