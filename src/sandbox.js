@@ -1,11 +1,11 @@
-var Sandbox = (function (window, document, undefined) {
+var Sandbox = (function () {
 
   var global = this;
 
-  var events        = {},
-    storage       = {};
+  var events      = {},
+      storage       = {};
 
-  return sandbox = {
+  sandbox = {
 
     storage: {
       get: function (key) {
@@ -73,6 +73,15 @@ var Sandbox = (function (window, document, undefined) {
       if (console && console.log)
         console.log.apply(console, arguments);
     }
+
   };
 
-}).call(this, window, document);
+  return sandbox;
+
+}).call(this);
+
+try {
+  if (undefined !== exports) {
+    exports = module.exports = Sandbox;
+  }
+} catch(e) {}

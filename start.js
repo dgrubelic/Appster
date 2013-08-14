@@ -27,8 +27,9 @@ application.configure(function () {
   }));
 });
 
+var Sandbox = exports.Sandbox = module.exports.Sandbox = require(__dirname + '/src/sandbox.js');
+
 require(__dirname + '/application/controllers/index.controller.js');
-require(__dirname + '/application/controllers/session.controller.js');
 
 server.listen(3000);
 console.log("Server started at port 3000...");
