@@ -3,7 +3,7 @@ Appster
 
 Modular application project framework running NodeJS, express.js and Mustache view engine.
 
-## Code examples:
+### Client code examples:
 
 ```js
 // Application initialization
